@@ -21,8 +21,8 @@ exports.user_signup_post = [
 
 bcrypt.hash(req.body.password,12,(err,hashedPassword)=>{
     if(err) return next(err);
-    let user = new User({
-            
+    
+    let user = new User({   
         fullname : req.body.firstname+' '+req.body.lastname,
         email:req.body.email,
         password : hashedPassword
@@ -37,8 +37,9 @@ bcrypt.hash(req.body.password,12,(err,hashedPassword)=>{
         else{
             User.find({'email':req.body.email}).exec(function(err,results){
                 if(err) return next(err);
-                if(results){
-                    res.redirect('/sign-up',{message:'User Email Address Already exists'});
+                if(results.length > 0){
+                  console.log(results)
+                    res.render('sign-up-form',{title:'Sign Up', message:'User Email Address Already exists'});
                 } else{
                     user.save(function(err){
                         if(err) return next(err);
@@ -53,7 +54,11 @@ bcrypt.hash(req.body.password,12,(err,hashedPassword)=>{
     }
 ]
 
-exports.login = passport.authenticate("local",{successRedirect:"/",
+exports.login_get=function(req,res){
+  res.render('login-form',{title:'Login'})
+}
+
+exports.login_post = passport.authenticate("local",{successRedirect:"/",
 
             failureRedirect:"/login"});
 

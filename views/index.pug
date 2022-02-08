@@ -2,4 +2,17 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  
+  if messages.length
+    for message in messages 
+      div
+        h4 #{message.title}
+        p #{message.content}
+        p #{message.timestamp}
+        if(user)
+          p #{message.user.fullname}
+        else
+          p Anonymous  
+
+  else 
+    p No messages

@@ -1,13 +1,16 @@
 const User = require('../models/user');
 const {body,validationResult} = require('express-validator');
-
+require('dotenv').config();
   
 
-exports.membership_form_get = function(req,res){
-    res.render('membership-form',{title:'Become A Member'});
+exports.membership_get = function(req,res){
+    if(!res.locals.currentUser){
+        res.redirect('/login');
+    }
+    res.render('membership-form',{title:'Become A Member',user:res.locals.currentUser});
 }
 
-exports.membership_form_post =[
+exports.membership_post =[
     
     body('passcode','The passcode field is required').trim().isLength({min:8}).escape(),
 
@@ -20,7 +23,7 @@ exports.membership_form_post =[
             res.render('membership-form',{title:'Become A Member', message:"Invalid Passcode, Try Again"});
         }
         else{
-            User.updateOne({_id:req.user._id}, {$set:{'membership_status':'active'}}).exec(function(err){
+            User.updateOne({_id:res.locals.currentUser}, {$set:{'membership_status': true}}).exec(function(err){
                 if(err) return next(err);
                 res.redirect('/member');
             })
@@ -30,11 +33,14 @@ exports.membership_form_post =[
     }
 ]
 
-exports.admin_form_get =function(req,res){
-    res.render('admin-form',{title:'Become An Admin'});
+exports.admin_get =function(req,res){
+    if(!res.locals.currentUser){
+        res.redirect('/login');
+    }
+    res.render('admin-form',{title:'Become An Admin',user:res.locals.currentUser});
 }
 
-exports.admin_form_post = [
+exports.admin_post = [
     body('user_id').trim().isLength({min:3}).escape(),
     body('passcode',"The passcode field is required ").trim().isLength({min:8}).escape(),
 
@@ -44,10 +50,10 @@ exports.admin_form_post = [
             res.render('admin-form',{title:'Become an Admin'});
         }
         if(req.passcode !== process.env.ADMIN_PASSCODE){
-            res.render("admin-form",{title:'Become An Admin',message :"Innvalid Admin Passcode"});            
+            res.render("admin-form",{title:'Become An Admin',message :"Invalid Admin Passcode"});            
         }
         else{
-            User.update({_id : req.body.user_id},{$set:{'isAdmin' :true}}).exec(function(err){
+            User.updateOne({_id : req.body.user_id},{$set:{'isAdmin' :true}}).exec(function(err){
                 if(err) return next(err);
 
                 res.redirect('/admin');

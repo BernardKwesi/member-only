@@ -1,0 +1,25 @@
+extends layout
+
+block content 
+
+    h1=title 
+    if(message)
+        p #{message}
+    form(action="" method="POST")
+        div 
+            label(for="firstname") Firstname:
+            input(type="text" name="firstname")
+        div 
+            label(for="lastname") Lastname:
+            input(type="text" name="lastname")
+        div     
+            label(for="email")  Email:
+            input(type="text" name="email")
+        div 
+            label(for="password") Password:
+            input(type="text" name="password")
+        div 
+            label(for="confirm_password") Confirm Password:
+            input(type="text" name="confirm_password")
+        
+        button(type='submit') Submit

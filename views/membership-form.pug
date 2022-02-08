@@ -1,0 +1,19 @@
+extends layout 
+
+block content 
+
+    if user 
+        h1=title
+
+        form(action="" method="POST")
+            
+            input(type='hidden' name='user_id' value=user._id)
+            div 
+                label(for='passcode')
+                input(type='password' name='passcode' required=true)
+
+            button(type='submit') Submit
+
+    else 
+        
+    

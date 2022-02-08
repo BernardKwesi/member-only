@@ -8,5 +8,7 @@
     user:{type:Schema.Types.ObjectId , ref:'User', required:true}
  });
 
-
+postSchema.virtual('url').get(function(){
+    return '/message/'+this._id;
+})
  module.exports = mongoose.model('Post', postSchema);

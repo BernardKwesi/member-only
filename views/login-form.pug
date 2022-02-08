@@ -1,0 +1,15 @@
+extends layout 
+
+block content
+
+    h1=title 
+
+    form(action="" method="POST")
+        div
+            label(for="email")  Email: 
+            input(type="email" name='email' required=true )
+        div 
+            label(for="password") Password: 
+            input(type="password" name="password" required=true)
+
+        button(type="submit" ) Submit
