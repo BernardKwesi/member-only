@@ -8,18 +8,18 @@ block content
     form(action="" method="POST")
         div 
             label(for="firstname") Firstname:
-            input(type="text" name="firstname")
+            input(type="text" name="firstname" required=true)
         div 
             label(for="lastname") Lastname:
-            input(type="text" name="lastname")
+            input(type="text" name="lastname" required=true)
         div     
             label(for="email")  Email:
-            input(type="text" name="email")
+            input(type="email" name="username" required=true)
         div 
             label(for="password") Password:
-            input(type="text" name="password")
+            input(type="text" name="password" required=true)
         div 
             label(for="confirm_password") Confirm Password:
-            input(type="text" name="confirm_password")
+            input(type="text" name="confirm_password" required=true)
         
         button(type='submit') Submit

@@ -6,7 +6,7 @@ const {body,validationResult} = require('express-validator');
 exports.index = function(req,res,next){
     Message.find({}).populate('user').exec((err,messages)=>{
         if(err) return next(err);
-        res.render('index',{messages: messages,user: req.user}); 
+        res.render('index',{messages: messages,user: res.locals.currentUser}); 
     });
     
 };

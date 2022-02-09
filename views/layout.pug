@@ -4,9 +4,15 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    nav 
-      div
-        a(href="/login") Login 
-      div
-        a(href="/signup") SignUp
+    if !user
+      nav 
+        div
+          a(href="/login") Login 
+        div
+          a(href="/signup") SignUp
+
+    else 
+      nav 
+        div 
+          a(href='/logout') Logout
     block content
