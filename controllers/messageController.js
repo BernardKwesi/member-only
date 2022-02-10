@@ -12,10 +12,11 @@ exports.index = function(req,res,next){
 };
 
 exports.message_create_get = function(req,res){
-    if(res.locals.currentUser){
-        res.render('message-form',{title:'Create Message',user:res.locals.currentUser});
+    if(!res.locals.currentUser){
+        res.redirect('/login');
     }
-    res.redirect('/login');
+ // console.log(res.locals.currentUser);
+    res.render('message-form',{title:'Create Message',user: res.locals.currentUser});
        
 }
 

@@ -58,8 +58,8 @@ exports.login_get=function(req,res){
 }
 
 exports.login_post =   passport.authenticate("local", {
-  successRedirect: "/message/create",
-  failureRedirect: "/"
+  successRedirect: "/",
+  failureRedirect: "/login"
 });
 exports.logout = function(req,res){
     req.logout();

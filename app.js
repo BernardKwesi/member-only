@@ -10,7 +10,6 @@ require('dotenv').config();
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 const User = require('./models/user');
 var app = express();
 
@@ -32,6 +31,7 @@ db.on("error", console.error.bind(console, "mongo connection error"));
 //End of MongoDb 
 
 //
+
 
 passport.use(
   new LocalStrategy((username, password, done) => {
@@ -67,18 +67,15 @@ app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 //
 
-app.use(session({secret:"cats",resave:false , saveUninitialized:true}));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(express.urlencoded({extended :false}));
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 app.use(function(req, res, next) {
   res.locals.currentUser = req.user;
   next();
-});
+}); 
+
+app.use('/', indexRouter);
+ 
+
 
 
 // catch 404 and forward to error handler
