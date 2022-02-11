@@ -2,7 +2,7 @@ extends layout
 
 block content 
 
-    if user.membership_status 
+    if !user.isAdmin 
         h1=title
 
         form(action="" method="POST")
@@ -15,6 +15,6 @@ block content
             button(type='submit') Submit
 
     else
-        h3 #{user.fullname } is already a member 
+        h3 #{user.fullname} is already an Admin 
         
     

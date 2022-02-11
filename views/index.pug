@@ -8,11 +8,21 @@ block content
       div
         h4 #{message.title}
         p #{message.content}
-        p #{message.timestamp}
-        if(user)
-          p #{message.user.fullname}
-        else
-          p Anonymous  
+        
+        if user
+          if user.membership_status
+            p User: #{message.user.fullname}
+            p Date: #{message.timestamp}
+          else
+            p User: Anonymous
+            p Date: unknown 
+
+          if user.isAdmin
+            p 
+              a(href=message.url +'/delete') update message 
+            p 
+              a(href=message.url +'/delete') delete message   
+
 
   else 
     p No messages

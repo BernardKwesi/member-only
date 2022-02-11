@@ -41,7 +41,7 @@ exports.message_create_post =[
         message.save(function(err){
             if(err) return next(err);
 
-            res.redirect('/messages_list',{message:"Message Added Successfully"});
+            res.redirect('/messages_list');
         })
     }
 ]

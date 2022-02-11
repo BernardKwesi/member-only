@@ -14,5 +14,14 @@ html
     else 
       nav 
         div 
+          a(href='/message/create') Create Message
+        if !user.membership_status
+          div 
+            a(href='/member') Become A Member
+        if !user.isAdmin        
+          div 
+            a(href='/admin') Become An Admin
+   
+        div 
           a(href='/logout') Logout
     block content

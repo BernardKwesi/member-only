@@ -5,12 +5,13 @@ block content
     h1=title
     h3 Welcome #{user.fullname}
     form(action="" method="POST")
+        input(type="hidden" value=user._id)
         div 
             label(for="title")
-            input(type="text" name="title" required=true)
+            input(type="text" name="title" required=true placeholder="Title ........" value=(undefined == message ?'' : message.title))
         div 
             label(for="content")
-            input(type="content" name="content") 
+            input(type="content" name="content" required=true placeholder="Message Content ........" value=(undefined == message ? '':message.content)) 
 
         button(type='submit') Submit
         
