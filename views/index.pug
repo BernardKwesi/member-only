@@ -9,19 +9,20 @@ block content
         h4 #{message.title}
         p #{message.content}
         
-        if user
+        if user && user.membership_status
           if user.membership_status
             p User: #{message.user.fullname}
             p Date: #{message.timestamp}
-          else
-            p User: Anonymous
-            p Date: unknown 
+        else
+          p User: Anonymous
+          p Date: unknown 
 
-          if user.isAdmin
-            p 
-              a(href=message.url +'/delete') update message 
-            p 
-              a(href=message.url +'/delete') delete message   
+        if user && user.isAdmin
+        
+          p 
+            a(href=message.url +'/delete') update message 
+          p 
+            a(href=message.url +'/delete') delete message   
 
 
   else 

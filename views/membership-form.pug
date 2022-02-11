@@ -2,7 +2,7 @@ extends layout
 
 block content 
 
-    if user.membership_status 
+    if user && !user.membership_status 
         h1=title
 
         form(action="" method="POST")
@@ -16,5 +16,6 @@ block content
 
     else
         h3 #{user.fullname } is already a member 
-        
+       
     
+ 
