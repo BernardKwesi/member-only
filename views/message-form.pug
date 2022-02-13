@@ -1,11 +1,11 @@
 extends layout
 
 block content
-
+ div.container-fluid
     h1=title
     h3 Welcome #{user.fullname}
-    form(action="" method="POST")
-        input(type="hidden" value=user._id)
+    form(method="POST" action=(undefined == message ?'' : message.url+'/update'))
+        input(type="hidden" name='user_id' value=user._id)
         div 
             label(for="title")
             input(type="text" name="title" required=true placeholder="Title ........" value=(undefined == message ?'' : message.title))

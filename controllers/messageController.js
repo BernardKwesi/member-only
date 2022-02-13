@@ -1,11 +1,26 @@
 const Message = require('../models/message');
 const User = require('../models/user');
 const {body,validationResult} = require('express-validator');
+const async = require('async');
 
 
 exports.index = function(req,res,next){
+   /*  async.parallel({
+        messages : function(callback){
+            Message.find({}).populate('user').exec(callback);
+        },
+        user: function(callback){
+            User.findById(res.locals.currentUser).exec(callback);
+        }
+    },function(err,results){
+        if(err) return next(err);
+        res.render('index',{messages:results.messages , user: results.user})
+    }) */
+
+
     Message.find({}).populate('user').exec((err,messages)=>{
         if(err) return next(err);
+      
         res.render('index',{messages: messages,user: res.locals.currentUser}); 
     });
     
@@ -41,17 +56,18 @@ exports.message_create_post =[
         message.save(function(err){
             if(err) return next(err);
 
-            res.redirect('/messages_list');
+            res.redirect('/');
         })
     }
 ]
 
 exports.message_update_get = function (req,res,next){
     if(!res.locals.currentUser){
-        res.redirect('/login',{title:'login Page'});
+        res.redirect('/login');
     }
 
-    Message.findOne({_id:req.params.id}, function(err,message){
+
+    Message.findById(req.params.id, function(err,message){
         if(err) return next(err);
         if(message == null){
             let error = new Error("Message Not found");
@@ -69,26 +85,31 @@ exports.message_update_post = [
     body('content','The content field is required').trim().isLength({min:3}).escape(),
 
     function(req,res,next){
+        console.log(req.params.id)
         let errors = validationResult(req);
-
+        
         let message = new Message({
+            _id: req.params.id,
             title:req.body.title ,
             content : req.body.content,
             timestamp :new Date ,
-            user : res.locals.currentUser,
+            user : req.body.user_id,
         });
+        
 
         if(!errors.isEmpty()){
-            res.render('message-form',{title:'Create Message', errors:errors.array() , message : message});
+            res.render('message-form',{title:'Update Message', errors:errors.array() , message : message});
         }
         Message.findByIdAndUpdate(req.params.id,message,{},function(err){
             if(err) return next(err);
             res.redirect('/');
+            return;
         })
     }
 ]
 
 exports.delete_post =function(req,res,next){
+    
     Message.findByIdAndDelete(req.body.message_id,function(err){
         if(err) return next(err);
         res.redirect('/')

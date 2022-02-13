@@ -1,6 +1,7 @@
 extends layout
 
 block content
+ div.container-fluid
   h1= title
   
   if messages.length
@@ -10,19 +11,19 @@ block content
         p #{message.content}
         
         if user && user.membership_status
-          if user.membership_status
-            p User: #{message.user.fullname}
-            p Date: #{message.timestamp}
+         
+          p User: #{message.user.fullname}
+          p Date: #{message.timestamp_formatted}
         else
           p User: Anonymous
           p Date: unknown 
 
-        if user && user.isAdmin
-        
-          p 
-            a(href=message.url +'/delete') update message 
-          p 
-            a(href=message.url +'/delete') delete message   
+        if user && user.isAdmin        
+          form(action=message.url +"/delete" method="POST")
+           input(type="hidden" value=message._id name="message_id")
+            
+           button(type='submit')            
+              i(class='fas fa-trash-alt' style='font-size:24px;color:red')   
 
 
   else 

@@ -18,9 +18,9 @@ router.post('/signup',authController.user_signup_post);
 router.get('/message/create', messageController.message_create_get);
 router.post('/message/create', messageController.message_create_post);
 router.get('/message/:id/update', messageController.message_update_get);
-router.post('message/:id/update', messageController.message_update_post);
+router.post('/message/:id/update', messageController.message_update_post);
 router.get('/message/:id/delete',messageController.delete_get);
-router.post('message/:id/delete',messageController.delete_post);
+router.post('/message/:id/delete',messageController.delete_post);
 
 //routes for becoming an admin
 router.get('/admin',userController.admin_get);

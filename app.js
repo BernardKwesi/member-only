@@ -42,10 +42,15 @@ passport.use(
       if (!user) {
         return done(null, false, { message: "Incorrect username" });
       }
-      if (user.password !== password) {
-        return done(null, false, { message: "Incorrect password" });
-      }
-      return done(null, user);
+      bcrypt.compare(password, user.password, (err, res) => {
+        if (err) {
+          return done(err);
+        }
+        if (res) {
+          return done(null, user);
+        }
+        return done(null, false, { message: 'Incorrect password' });
+      });
     });
   })
 );

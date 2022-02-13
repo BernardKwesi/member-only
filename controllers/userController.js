@@ -12,7 +12,7 @@ exports.membership_get = function(req,res){
 
 exports.membership_post =[
     
-    body('passcode','The passcode field is required').trim().isLength({min:8}).escape(),
+    body('passcode','The passcode field is required').trim().isLength({min:2}).escape(),
 
     function(req,res,next){
         let error = validationResult(req);
@@ -25,7 +25,7 @@ exports.membership_post =[
         else{
             User.updateOne({_id:res.locals.currentUser}, {$set:{'membership_status': true}}).exec(function(err){
                 if(err) return next(err);
-                res.redirect('/member');
+                res.redirect('/');
             })
         }
 
@@ -41,22 +41,22 @@ exports.admin_get =function(req,res){
 }
 
 exports.admin_post = [
-    body('user_id').trim().isLength({min:3}).escape(),
-    body('passcode',"The passcode field is required ").trim().isLength({min:8}).escape(),
+    
+    body('passcode',"The passcode field is required ").trim().isLength({min:2}).escape(),
 
     function(req,res,next){
         let errors = validationResult(req);
         if(!errors.isEmpty()){
             res.render('admin-form',{title:'Become an Admin'});
         }
-        if(req.passcode !== process.env.ADMIN_PASSCODE){
+        if(req.body.passcode !== process.env.ADMIN_PASSCODE){
             res.render("admin-form",{title:'Become An Admin',message :"Invalid Admin Passcode"});            
         }
         else{
-            User.updateOne({_id : req.body.user_id},{$set:{'isAdmin' :true}}).exec(function(err){
+            User.updateOne({_id : res.locals.currentUser},{$set:{'isAdmin' :true}}).exec(function(err){
                 if(err) return next(err);
 
-                res.redirect('/admin');
+                res.redirect('/');
             });
         }
     }
