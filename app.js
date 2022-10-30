@@ -32,7 +32,7 @@ db.on("error", console.error.bind(console, "mongo connection error"));
 
 //
 
-
+//passport for authentication setup start
 passport.use(
   new LocalStrategy((username, password, done) => {
     User.findOne({ username: username }, (err, user) => {
@@ -70,8 +70,9 @@ app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
-//
 
+
+//passport for authentication setup start
 
 app.use(function(req, res, next) {
   res.locals.currentUser = req.user;
