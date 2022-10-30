@@ -5,17 +5,7 @@ const async = require('async');
 
 
 exports.index = function(req,res,next){
-   /*  async.parallel({
-        messages : function(callback){
-            Message.find({}).populate('user').exec(callback);
-        },
-        user: function(callback){
-            User.findById(res.locals.currentUser).exec(callback);
-        }
-    },function(err,results){
-        if(err) return next(err);
-        res.render('index',{messages:results.messages , user: results.user})
-    }) */
+   
 
 
     Message.find({}).populate('user').exec((err,messages)=>{
@@ -30,7 +20,7 @@ exports.message_create_get = function(req,res){
     if(!res.locals.currentUser){
         res.redirect('/login');
     }
- // console.log(res.locals.currentUser);
+
     res.render('message-form',{title:'Create Message',user: res.locals.currentUser});
        
 }
