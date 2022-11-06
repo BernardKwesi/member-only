@@ -2,19 +2,21 @@ extends layout
 
 block content 
 
-    if user && !user.membership_status 
-        h1=title
-
-        form(action="" method="POST")
-            
-            input(type='hidden' name='user_id' value=user._id)
-            div 
-             label(for='passcode')
-             input(type='password' name='passcode' required=true)
-
-            button(type='submit') Submit
-
-    else
-        h3 #{user.fullname } is already a member 
-       
+    if user 
+        if !user.membership_status 
+            h1=title
+    
+            form(action="" method="POST")
+                
+                input(type='hidden' name='user_id' value=user._id)
+                div 
+                 label(for='passcode')
+                 input(type='password' name='passcode' required=true)
+    
+                button(type='submit') Submit
+        
+        else
+            h3 #{user.fullname} is already a member 
+    else 
+        h3 Please Log In 
     

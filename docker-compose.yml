@@ -1,11 +1,13 @@
 version: '3'
 services:
   members-only: 
-    image: 262200957002.dkr.ecr.us-east-1.amazonaws.com/members-only:1.0
+    image: 262200957002.dkr.ecr.us-east-1.amazonaws.com/members-only:latest
     ports:
      - 3000:3000
     environment:
      - MONGO_URI=mongodb://admin:pass@mongodb
+     - ADMIN_PASSCODE= 12345
+     - MEMBER_PASSCODE= 12345
   mongodb:
     image: mongo
     ports:
